@@ -86,17 +86,20 @@ function calculateURL() {
 
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('githublinker.copyLink', () => {
+        let finalURL = 'error URL'
         try {
-            const finalURL = calculateURL();
+            finalURL = calculateURL();
             clipboardy.writeSync(finalURL);
             vscode.window.showInformationMessage('GitHub URL copied to the clipboard!');
         } catch (err) {
+            console.log("finalURL copied: \n" + finalURL);
             vscode.window.showErrorMessage(err.message);
             throw err;
         }
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand('githublinker.copyMarkdown', () => {
+        let markdown = 'error copied';
         try {
             const editor = vscode.window.activeTextEditor;
             if (!editor) {
@@ -107,10 +110,11 @@ export function activate(context: vscode.ExtensionContext) {
             const text = document.getText(selection);
 
             const finalURL = calculateURL();
-            const markdown = finalURL + '\n\n```' + document.languageId + '\n' + text + '\n```';
+            markdown = finalURL + '\n\n```' + document.languageId + '\n' + text + '\n```';
             clipboardy.writeSync(markdown);
             vscode.window.showInformationMessage('GitHub URL and code copied to the clipboard!');
         } catch (err) {
+            console.log("code snippet copied: \n" + markdown);
             vscode.window.showErrorMessage(err.message);
             throw err;
         }
