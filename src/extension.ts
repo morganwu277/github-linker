@@ -56,7 +56,7 @@ function calculateURL() {
     var refName = '';
     if (!ref) {
         console.error('No lines started with [ref:] found in .git/HEAD. Will just use sha found in .git/HEAD');
-        sha = head;
+        sha = head.trim(); // remove empty space or newlines
     } else {
         refName = ref.substring(refPrefix.length)
         sha = fs.readFileSync(path.join(gitDir, refName), 'utf8').trim();
