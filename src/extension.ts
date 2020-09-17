@@ -52,11 +52,15 @@ function calculateURL() {
     const head = fs.readFileSync(path.join(gitDir, 'HEAD'), 'utf8')
     const refPrefix = 'ref: ';
     const ref = head.split('\n').find(line => line.startsWith(refPrefix))
+    var sha = '';
+    var refName = '';
     if (!ref) {
-        throw new Error('No ref found. Cannot calculate current commit');
+        console.error('No lines started with [ref:] found in .git/HEAD. Will just use sha found in .git/HEAD');
+        sha = head;
+    } else {
+        refName = ref.substring(refPrefix.length)
+        sha = fs.readFileSync(path.join(gitDir, refName), 'utf8').trim();
     }
-    const refName = ref.substring(refPrefix.length)
-    const sha = fs.readFileSync(path.join(gitDir, refName), 'utf8').trim();
 
     const gitConfig = ini.parse(fs.readFileSync(path.join(gitDir, 'config'), 'utf8'))
 
