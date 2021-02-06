@@ -58,10 +58,10 @@ Extension icon made by [Freepik](https://www.freepik.com/ "Freepik") from [www.f
 ## Development
 https://code.visualstudio.com/api/get-started/your-first-extension 
 ```bash
-npm install -g yo generator-code tsc
+npm install -g yo generator-code
 npm install -g vsce
 # generate github-linker-0.2.2.vsix
-vsce package
+yarn && vsce package
 # published to VS Code MarketPlace
 vsce publish
 ```
